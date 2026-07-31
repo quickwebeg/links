@@ -3,40 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickWeb</title>
+    <title>QuickWeb Eg</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="QuickWeb Logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="QuickWeb Logo.png">
 
-    <!-- Exact same fonts as portfolio -->
+    <!-- Fallback fonts (29LT Bukra is a premium font, using close alternatives) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- If you have the 29LT Bukra font files, uncomment and use this -->
+    <!--
+    <style>
+        @font-face {
+            font-family: '29LT Bukra';
+            src: url('fonts/29LTBukra-Regular.woff2') format('woff2');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: '29LT Bukra';
+            src: url('fonts/29LTBukra-Bold.woff2') format('woff2');
+            font-weight: 700;
+        }
+        @font-face {
+            font-family: '29LT Bukra';
+            src: url('fonts/29LTBukra-Black.woff2') format('woff2');
+            font-weight: 900;
+        }
+    </style>
+    -->
 
     <style>
 
         /* =============================================
-           CSS VARIABLES - EXACT PORTFOLIO MATCH
+           EXACT PORTFOLIO COLORS
         ============================================= */
         :root {
-            --dark-navy:      #020c1b;
-            --navy:           #0a192f;
-            --light-navy:     #112240;
-            --lightest-navy:  #233554;
-            --slate:          #8892b0;
-            --light-slate:    #a8b2d8;
-            --lightest-slate: #ccd6f6;
-            --white:          #e6f1ff;
-            --green:          #64ffda;
-            --green-tint:     rgba(100, 255, 218, 0.1);
-            --green-tint-2:   rgba(100, 255, 218, 0.05);
-            --font-sans:      'Inter', 'Calibre', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-mono:      'Fira Code', 'SF Mono', 'Courier New', monospace;
-            --transition:     all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-            --border-radius:  4px;
-            --shadow:         0 10px 30px -15px rgba(2, 12, 27, 0.7);
+            --black:       #171810;
+            --black-2:     #1f201a;
+            --black-3:     #2a2b23;
+            --green:       #03FA6E;
+            --green-dim:   rgba(3, 250, 110, 0.1);
+            --green-glow:  rgba(3, 250, 110, 0.4);
+            --white:       #FFFFFF;
+            --gray:        #a0a099;
+            --gray-dark:   #6a6b63;
+
+            --font-main:   '29LT Bukra', 'Archivo', 'Space Grotesk', -apple-system, sans-serif;
+            --transition:  all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* =============================================
@@ -46,7 +63,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
         }
 
         html {
@@ -54,345 +70,362 @@
         }
 
         body {
-            background-color: var(--navy);
-            color: var(--slate);
-            font-family: var(--font-sans);
-            font-size: 16px;
-            line-height: 1.5;
+            background-color: var(--black);
+            color: var(--white);
+            font-family: var(--font-main);
+            font-weight: 500;
+            line-height: 1.4;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
+        }
+
+        /* =============================================
+           GRID BACKGROUND (like portfolio)
+        ============================================= */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(3, 250, 110, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(3, 250, 110, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(3, 250, 110, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* =============================================
+           TOP NAV (matches portfolio nav)
+        ============================================= */
+        .navbar {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5rem 1.5rem;
-            overflow-x: hidden;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .navbar-logo img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .navbar-logo-text {
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--white);
+            letter-spacing: -0.5px;
+            text-transform: none;
+        }
+
+        .navbar-logo-text .green {
+            color: var(--green);
+        }
+
+        .navbar-logo-text .white-sm {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-left: 4px;
         }
 
         /* =============================================
-           CUSTOM CURSOR - EXACT PORTFOLIO MATCH
+           MAIN CONTENT
         ============================================= */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--green);
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, opacity 0.2s;
-        }
-
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--green);
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 99998;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, opacity 0.3s;
-            opacity: 0.6;
-        }
-
-        .cursor-dot.hovered {
-            width: 0px;
-            height: 0px;
-            opacity: 0;
-        }
-
-        .cursor-outline.hovered {
-            width: 55px;
-            height: 55px;
-            opacity: 0.3;
-            border-color: var(--green);
-        }
-
-        /* =============================================
-           BACKGROUND - EXACT PORTFOLIO MATCH
-        ============================================= */
-        .bg-dots {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(var(--lightest-navy) 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        .bg-gradient {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background: radial-gradient(
-                ellipse 80% 50% at 50% -20%,
-                rgba(100, 255, 218, 0.05),
-                transparent
-            );
-            pointer-events: none;
-        }
-
-        /* =============================================
-           LAYOUT
-        ============================================= */
-        .wrapper {
+        .main {
             position: relative;
             z-index: 1;
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 1rem 1.5rem 3rem;
+        }
+
+        .wrapper {
             width: 100%;
-            max-width: 500px;
+            max-width: 560px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 40px;
+            gap: 32px;
         }
 
         /* =============================================
-           HEADER
+           HERO SECTION - BIG HEADLINE
         ============================================= */
-        .header {
-            text-align: center;
-            width: 100%;
+        .hero {
+            text-align: left;
+            margin-top: 1rem;
         }
 
-        /* Mono intro text - exactly like portfolio "Hi, my name is" */
-        .header-intro {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--green);
-            margin-bottom: 12px;
-            display: block;
-            letter-spacing: 0.05em;
-        }
-
-        .logo-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            margin-bottom: 10px;
-        }
-
-        .logo-img {
-            width: 52px;
-            height: 52px;
-            object-fit: contain;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--lightest-navy);
-            background: var(--light-navy);
-            padding: 5px;
-        }
-
-        /* Exact same h1 style as portfolio hero */
-        .logo-name {
-            font-size: clamp(2rem, 8vw, 2.8rem);
-            font-weight: 700;
-            color: var(--lightest-slate);
-            line-height: 1.1;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-name span {
-            color: var(--green);
-        }
-
-        /* Exact same h2 / subtitle style as portfolio */
-        .logo-sub {
-            font-size: clamp(1rem, 4vw, 1.1rem);
-            font-weight: 600;
-            color: var(--slate);
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .available-badge {
+        /* Available badge - top */
+        .badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--green-tint);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            border-radius: 2px;
             padding: 6px 14px;
-            font-family: var(--font-mono);
+            border: 1px solid var(--green);
+            background: var(--green-dim);
+            border-radius: 100px;
             font-size: 0.72rem;
+            font-weight: 600;
             color: var(--green);
             letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
         }
 
-        .pulse-dot {
+        .badge-dot {
             width: 7px;
             height: 7px;
             background: var(--green);
             border-radius: 50%;
-            flex-shrink: 0;
-            animation: pulsate 2s ease-in-out infinite;
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        @keyframes pulsate {
+        @keyframes pulse {
             0%, 100% {
-                box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.5);
+                box-shadow: 0 0 0 0 var(--green-glow);
                 opacity: 1;
             }
             50% {
-                box-shadow: 0 0 0 6px rgba(100, 255, 218, 0);
+                box-shadow: 0 0 0 6px transparent;
                 opacity: 0.6;
             }
         }
 
-        /* =============================================
-           STATS - styled like portfolio skill chips
-        ============================================= */
-        .stats {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .stat {
-            background: var(--light-navy);
-            border: 1px solid var(--lightest-navy);
-            border-radius: var(--border-radius);
-            padding: 18px 10px;
-            text-align: center;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-
-        .stat:hover {
-            border-color: var(--green);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 30px -15px rgba(2, 12, 27, 0.7);
-        }
-
-        .stat-val {
-            font-family: var(--font-mono);
-            font-size: 1.4rem;
-            font-weight: 600;
+        /* THE BIG HEADLINE - matches "Website." */
+        .hero-title {
+            font-family: var(--font-main);
+            font-size: clamp(3.5rem, 15vw, 6rem);
+            font-weight: 900;
+            line-height: 0.9;
             color: var(--green);
-            display: block;
-            line-height: 1;
+            letter-spacing: -3px;
+            text-transform: lowercase;
+            margin-bottom: 20px;
+            text-shadow: 0 0 60px rgba(3, 250, 110, 0.3);
         }
 
-        .stat-lbl {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            color: var(--slate);
-            margin-top: 6px;
-            display: block;
-            letter-spacing: 0.05em;
+        .hero-title .dot {
+            color: var(--green);
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            max-width: 90%;
+        }
+
+        .hero-desc strong {
+            color: var(--white);
+            font-weight: 700;
         }
 
         /* =============================================
-           PRIMARY BUTTON - exact portfolio button style
+           CTA BUTTONS (matches portfolio)
         ============================================= */
-        .btn-primary {
+        .cta-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Primary - filled green (like "View Demos") */
+        .btn-fill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            width: 100%;
-            padding: 18px 28px;
-            background: transparent;
-            color: var(--green);
-            border: 1px solid var(--green);
-            border-radius: var(--border-radius);
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.05em;
+            gap: 10px;
+            padding: 16px 28px;
+            background: var(--green);
+            color: var(--black);
+            border: 2px solid var(--green);
+            border-radius: 6px;
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.95rem;
             text-decoration: none;
             transition: var(--transition);
-            cursor: none;
-            position: relative;
-            overflow: hidden;
+            cursor: pointer;
+            flex: 1;
+            min-width: 160px;
         }
 
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--green-tint);
-            opacity: 0;
+        .btn-fill:hover {
+            background: transparent;
+            color: var(--green);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(3, 250, 110, 0.25);
+        }
+
+        .btn-fill i {
+            font-size: 1.1rem;
+        }
+
+        /* Outline - dark (like "See Pricing") */
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 28px;
+            background: var(--black-2);
+            color: var(--white);
+            border: 2px solid var(--black-3);
+            border-radius: 6px;
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
             transition: var(--transition);
+            cursor: pointer;
+            flex: 1;
+            min-width: 160px;
         }
 
-        .btn-primary:hover {
-            background: var(--green-tint);
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.1), var(--shadow);
+        .btn-outline:hover {
+            border-color: var(--green);
+            color: var(--green);
             transform: translateY(-3px);
         }
 
-        .btn-primary:hover::after {
-            opacity: 1;
-        }
-
-        .btn-primary i {
-            font-size: 1.2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-primary-inner {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            position: relative;
-            z-index: 1;
-            flex: 1;
-        }
-
-        .btn-primary-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--green);
-            font-family: var(--font-mono);
-        }
-
-        .btn-primary-sub {
-            font-size: 0.68rem;
-            color: var(--slate);
-            margin-top: 2px;
-            font-family: var(--font-mono);
-        }
-
         /* =============================================
-           SECTION TITLE - exact portfolio style
+           SCROLL INDICATOR (matches portfolio)
         ============================================= */
-        .section-title {
-            width: 100%;
+        .scroll-line {
             display: flex;
             align-items: center;
             gap: 12px;
-            white-space: nowrap;
+            margin-top: 8px;
         }
 
-        .section-title-text {
-            font-size: 0.72rem;
-            font-family: var(--font-mono);
-            color: var(--slate);
-            letter-spacing: 0.1em;
+        .scroll-line-bar {
+            width: 40px;
+            height: 2px;
+            background: var(--green);
+        }
+
+        .scroll-line-text {
+            font-family: var(--font-main);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gray);
+            letter-spacing: 0.2em;
             text-transform: uppercase;
         }
 
-        .section-title-line {
-            flex: 1;
-            height: 1px;
-            background: var(--lightest-navy);
+        /* =============================================
+           MARQUEE / SLIDER (the moving bar at bottom)
+        ============================================= */
+        .marquee {
+            position: relative;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            padding: 22px 0;
+            background: var(--black-2);
+            border-top: 1px solid var(--black-3);
+            border-bottom: 1px solid var(--black-3);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 60px;
+            animation: scroll 30s linear infinite;
+            width: max-content;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .marquee-item::after {
+            content: '✦';
+            color: var(--green);
+            font-size: 1rem;
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
         }
 
         /* =============================================
-           LINK CARDS - styled like portfolio project cards
+           SECTION HEADERS
+        ============================================= */
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 6px;
+        }
+
+        .section-head-num {
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: 0.1em;
+        }
+
+        .section-head-title {
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .section-head-line {
+            flex: 1;
+            height: 1px;
+            background: var(--black-3);
+        }
+
+        /* =============================================
+           LINK CARDS
         ============================================= */
         .links {
-            width: 100%;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -402,62 +435,56 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 16px 20px;
-            background: var(--light-navy);
-            border: 1px solid var(--lightest-navy);
-            border-radius: var(--border-radius);
+            padding: 18px 22px;
+            background: var(--black-2);
+            border: 1px solid var(--black-3);
+            border-radius: 8px;
             text-decoration: none;
-            color: var(--light-slate);
+            color: var(--white);
             transition: var(--transition);
-            cursor: none;
             position: relative;
-            box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
-        /* Same top-border reveal on hover as portfolio project cards */
         .link-card::before {
             content: '';
             position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
-            height: 2px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
             background: var(--green);
-            transform: scaleX(0);
-            transform-origin: left;
+            transform: scaleY(0);
             transition: var(--transition);
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            transform-origin: bottom;
         }
 
         .link-card:hover::before {
-            transform: scaleX(1);
+            transform: scaleY(1);
+            transform-origin: top;
         }
 
         .link-card:hover {
-            border-color: var(--lightest-navy);
-            background: var(--lightest-navy);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 30px -15px rgba(2, 12, 27, 0.7);
-            color: var(--lightest-slate);
+            border-color: var(--green);
+            transform: translateX(4px);
+            background: var(--black-3);
         }
 
-        .link-card-icon-wrap {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--border-radius);
-            background: var(--lightest-navy);
-            border: 1px solid var(--lightest-navy);
+        .link-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 6px;
+            background: var(--black-3);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.15rem;
             flex-shrink: 0;
             transition: var(--transition);
         }
 
-        .link-card:hover .link-card-icon-wrap {
-            background: var(--green-tint);
-            border-color: rgba(100, 255, 218, 0.2);
+        .link-card:hover .link-card-icon {
+            background: var(--green-dim);
         }
 
         .link-card-body {
@@ -468,108 +495,93 @@
         }
 
         .link-card-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--lightest-slate);
-            transition: var(--transition);
-            font-family: var(--font-sans);
-        }
-
-        .link-card:hover .link-card-title {
-            color: var(--green);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.2px;
         }
 
         .link-card-desc {
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            color: var(--slate);
+            font-family: var(--font-main);
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: var(--gray);
             margin-top: 2px;
         }
 
         .link-card-arrow {
-            font-size: 0.7rem;
-            color: var(--slate);
+            font-size: 0.85rem;
+            color: var(--gray);
             transition: var(--transition);
             flex-shrink: 0;
         }
 
         .link-card:hover .link-card-arrow {
             color: var(--green);
-            transform: translate(3px, -3px);
+            transform: translate(4px, -4px);
         }
 
         /* =============================================
-           SERVICES - styled like portfolio skill tags
+           SERVICES
         ============================================= */
-        .services {
-            width: 100%;
-        }
-
         .services-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 0;
+            gap: 10px;
         }
 
         .service-item {
-            background: var(--light-navy);
-            border: 1px solid var(--lightest-navy);
-            border-radius: var(--border-radius);
-            padding: 12px 16px;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--slate);
+            background: var(--black-2);
+            border: 1px solid var(--black-3);
+            border-radius: 6px;
+            padding: 14px 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--white);
             transition: var(--transition);
         }
 
         .service-item:hover {
-            background: var(--lightest-navy);
-            border-color: rgba(100, 255, 218, 0.2);
+            border-color: var(--green);
             color: var(--green);
             transform: translateY(-2px);
         }
 
         .service-item i {
             color: var(--green);
-            font-size: 0.8rem;
-            width: 14px;
+            font-size: 0.9rem;
+            width: 16px;
             text-align: center;
             flex-shrink: 0;
         }
 
         /* =============================================
-           DIVIDER
-        ============================================= */
-        .divider {
-            width: 100%;
-            height: 1px;
-            background: var(--lightest-navy);
-        }
-
-        /* =============================================
-           FOOTER - same style as portfolio footer
+           FOOTER
         ============================================= */
         .footer {
             text-align: center;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--slate);
-            line-height: 2;
+            padding-top: 24px;
+            border-top: 1px solid var(--black-3);
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--gray-dark);
+            line-height: 1.8;
         }
 
         .footer a {
             color: var(--green);
             text-decoration: none;
-            transition: var(--transition);
+            font-weight: 700;
         }
 
         .footer a:hover {
             text-decoration: underline;
-            text-underline-offset: 3px;
         }
 
         /* =============================================
@@ -588,256 +600,227 @@
 
         .anim {
             opacity: 0;
-            animation: fadeUp 0.6s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+            animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        .anim-1  { animation-delay: 0.1s; }
-        .anim-2  { animation-delay: 0.2s; }
-        .anim-3  { animation-delay: 0.3s; }
-        .anim-4  { animation-delay: 0.4s; }
-        .anim-5  { animation-delay: 0.5s; }
-        .anim-6  { animation-delay: 0.6s; }
-        .anim-7  { animation-delay: 0.7s; }
-        .anim-8  { animation-delay: 0.8s; }
-        .anim-9  { animation-delay: 0.9s; }
+        .a1 { animation-delay: 0.05s; }
+        .a2 { animation-delay: 0.15s; }
+        .a3 { animation-delay: 0.25s; }
+        .a4 { animation-delay: 0.35s; }
+        .a5 { animation-delay: 0.45s; }
+        .a6 { animation-delay: 0.55s; }
+        .a7 { animation-delay: 0.65s; }
+        .a8 { animation-delay: 0.75s; }
 
         /* =============================================
            RESPONSIVE
         ============================================= */
-        @media (max-width: 420px) {
-            body { padding: 4rem 1rem; }
+        @media (max-width: 500px) {
+            .navbar { padding: 1.2rem 1.5rem; }
+            .main { padding: 0.5rem 1.2rem 2rem; }
+            .hero-title { font-size: 4rem; letter-spacing: -2px; }
             .services-grid { grid-template-columns: 1fr; }
-            .stats { grid-template-columns: repeat(3, 1fr); }
-            .stat-val { font-size: 1.1rem; }
-        }
-
-        @media (hover: none) and (pointer: coarse) {
-            .cursor-dot,
-            .cursor-outline { display: none !important; }
-            * { cursor: auto !important; }
+            .cta-row { flex-direction: column; }
+            .btn-fill, .btn-outline { width: 100%; }
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Cursor -->
-    <div class="cursor-dot"     id="cursorDot"></div>
-    <div class="cursor-outline" id="cursorOutline"></div>
-
-    <!-- Background layers -->
-    <div class="bg-dots"></div>
-    <div class="bg-gradient"></div>
+    <!-- Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
 
     <!-- ==========================================
-         PAGE CONTENT
+         NAVBAR
     =========================================== -->
-    <div class="wrapper">
-
-        <!-- HEADER -------------------------------->
-        <header class="header anim anim-1">
-            <span class="header-intro">// hello, we are</span>
-            <div class="logo-row">
-                <img src="QuickWeb Logo.png" alt="QuickWeb" class="logo-img">
-                <h1 class="logo-name">Quick<span>Web</span></h1>
-            </div>
-            <h2 class="logo-sub">We build things for the web.</h2>
-            <div class="available-badge">
-                <span class="pulse-dot"></span>
-                available for new projects
-            </div>
-        </header>
-
-        <!-- STATS --------------------------------->
-        <div class="stats anim anim-2">
-            <div class="stat">
-                <span class="stat-val">fast</span>
-                <span class="stat-lbl">delivery</span>
-            </div>
-            <div class="stat">
-                <span class="stat-val">24h</span>
-                <span class="stat-lbl">response</span>
-            </div>
-            <div class="stat">
-                <span class="stat-val">100%</span>
-                <span class="stat-lbl">dedicated</span>
-            </div>
-        </div>
-
-        <!-- WHATSAPP CTA -------------------------->
-        <a href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20QuickWeb!%20I%20saw%20your%20profile%20and%20I%27m%20interested%20in%20a%20project."
-           class="btn-primary anim anim-3"
-           target="_blank"
-           rel="noopener noreferrer">
-            <i class="fab fa-whatsapp"></i>
-            <div class="btn-primary-inner">
-                <span class="btn-primary-title">Start a Conversation</span>
-                <span class="btn-primary-sub">// free consultation · no commitment</span>
-            </div>
-            <i class="fas fa-arrow-up-right-from-square" style="font-size:0.7rem; opacity:0.6;"></i>
+    <nav class="navbar">
+        <a href="#" class="navbar-logo">
+            <img src="QuickWeb Logo.png" alt="QuickWeb">
+            <span class="navbar-logo-text">
+                Quick<span class="green">Web</span><span class="white-sm">Eg</span>
+            </span>
         </a>
+    </nav>
 
-        <!-- DIVIDER ------------------------------->
-        <div class="divider anim anim-4"></div>
+    <!-- ==========================================
+         MAIN
+    =========================================== -->
+    <main class="main">
+        <div class="wrapper">
 
-        <!-- SECTION TITLE ------------------------->
-        <div class="section-title anim anim-4">
-            <span class="section-title-text">find us on</span>
-            <div class="section-title-line"></div>
-        </div>
+            <!-- HERO ---------------------------------->
+            <section class="hero">
+                <div class="badge anim a1">
+                    <span class="badge-dot"></span>
+                    Available for projects
+                </div>
 
-        <!-- LINKS --------------------------------->
-        <div class="links anim anim-5">
+                <h1 class="hero-title anim a2">
+                    links<span class="dot">.</span>
+                </h1>
 
-            <a href="https://www.tiktok.com/@YOUR_TIKTOK"
-               class="link-card"
-               target="_blank"
-               rel="noopener noreferrer">
-                <div class="link-card-icon-wrap">
-                    <i class="fab fa-tiktok" style="color: var(--lightest-slate);"></i>
-                </div>
-                <div class="link-card-body">
-                    <span class="link-card-title">TikTok</span>
-                    <span class="link-card-desc">// watch our content &amp; tips</span>
-                </div>
-                <i class="fas fa-arrow-up-right-from-square link-card-arrow"></i>
-            </a>
+                <p class="hero-desc anim a3">
+                    <strong>QuickWeb Eg</strong> — professional catalog websites for Egyptian businesses. Tap below to start your project or explore our socials.
+                </p>
 
-            <a href="https://www.instagram.com/YOUR_INSTAGRAM"
-               class="link-card"
-               target="_blank"
-               rel="noopener noreferrer">
-                <div class="link-card-icon-wrap">
-                    <i class="fab fa-instagram" style="color: #e1306c;"></i>
+                <div class="cta-row anim a4">
+                    <a href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20QuickWeb!%20I%27m%20interested%20in%20a%20website."
+                       class="btn-fill"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                        Get a Website →
+                    </a>
+                    <a href="https://quickwebeg.github.io/portfolio/#pricing"
+                       class="btn-outline"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        See Pricing
+                    </a>
                 </div>
-                <div class="link-card-body">
-                    <span class="link-card-title">Instagram</span>
-                    <span class="link-card-desc">// follow for updates</span>
-                </div>
-                <i class="fas fa-arrow-up-right-from-square link-card-arrow"></i>
-            </a>
 
-            <a href="https://wa.me/YOUR_PHONE_NUMBER"
-               class="link-card"
-               target="_blank"
-               rel="noopener noreferrer">
-                <div class="link-card-icon-wrap">
-                    <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                <div class="scroll-line anim a5">
+                    <div class="scroll-line-bar"></div>
+                    <span class="scroll-line-text">Find us below</span>
                 </div>
-                <div class="link-card-body">
-                    <span class="link-card-title">WhatsApp</span>
-                    <span class="link-card-desc">// message us directly</span>
-                </div>
-                <i class="fas fa-arrow-up-right-from-square link-card-arrow"></i>
-            </a>
-
-            <a href="mailto:YOUR_EMAIL@gmail.com"
-               class="link-card">
-                <div class="link-card-icon-wrap">
-                    <i class="fas fa-envelope" style="color: var(--green);"></i>
-                </div>
-                <div class="link-card-body">
-                    <span class="link-card-title">Email Us</span>
-                    <span class="link-card-desc">// for formal inquiries</span>
-                </div>
-                <i class="fas fa-arrow-up-right-from-square link-card-arrow"></i>
-            </a>
+            </section>
 
         </div>
+    </main>
 
-        <!-- DIVIDER ------------------------------->
-        <div class="divider anim anim-6"></div>
-
-        <!-- SECTION TITLE ------------------------->
-        <div class="section-title anim anim-6">
-            <span class="section-title-text">what we build</span>
-            <div class="section-title-line"></div>
+    <!-- ==========================================
+         MARQUEE
+    =========================================== -->
+    <div class="marquee anim a5">
+        <div class="marquee-track">
+            <span class="marquee-item">Egypt Only</span>
+            <span class="marquee-item">Hosted Free</span>
+            <span class="marquee-item">Catalog Websites</span>
+            <span class="marquee-item">Fast Delivery</span>
+            <span class="marquee-item">Egyptian Businesses</span>
+            <span class="marquee-item">Mobile Responsive</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="marquee-item">Egypt Only</span>
+            <span class="marquee-item">Hosted Free</span>
+            <span class="marquee-item">Catalog Websites</span>
+            <span class="marquee-item">Fast Delivery</span>
+            <span class="marquee-item">Egyptian Businesses</span>
+            <span class="marquee-item">Mobile Responsive</span>
         </div>
-
-        <!-- SERVICES ------------------------------>
-        <div class="services anim anim-7">
-            <div class="services-grid">
-                <div class="service-item">
-                    <i class="fas fa-globe"></i> Websites
-                </div>
-                <div class="service-item">
-                    <i class="fas fa-mobile-alt"></i> Web Apps
-                </div>
-                <div class="service-item">
-                    <i class="fas fa-shopping-cart"></i> E-Commerce
-                </div>
-                <div class="service-item">
-                    <i class="fas fa-paint-brush"></i> UI / UX Design
-                </div>
-                <div class="service-item">
-                    <i class="fas fa-search"></i> SEO
-                </div>
-                <div class="service-item">
-                    <i class="fas fa-tools"></i> Maintenance
-                </div>
-            </div>
-        </div>
-
-        <!-- DIVIDER ------------------------------->
-        <div class="divider anim anim-8"></div>
-
-        <!-- FOOTER -------------------------------->
-        <footer class="footer anim anim-9">
-            <div>Designed &amp; Built by <a href="https://quickwebeg.github.io/portfolio/" target="_blank">QuickWeb</a></div>
-            <div>Egypt 🇪🇬 &nbsp;·&nbsp; 2025</div>
-        </footer>
-
     </div>
 
     <!-- ==========================================
-         JAVASCRIPT
+         MAIN CONTINUED
     =========================================== -->
-    <script>
-        /* ── Cursor ───────────────────────────── */
-        const dot     = document.getElementById('cursorDot');
-        const outline = document.getElementById('cursorOutline');
+    <main class="main" style="padding-top: 2.5rem;">
+        <div class="wrapper">
 
-        let mouseX = 0, mouseY = 0;
-        let outX   = 0, outY   = 0;
+            <!-- LINKS SECTION ---------------------------------->
+            <div>
+                <div class="section-head anim a6">
+                    <span class="section-head-num">01 /</span>
+                    <span class="section-head-title">Find Us On</span>
+                    <div class="section-head-line"></div>
+                </div>
 
-        window.addEventListener('mousemove', e => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            dot.style.left = mouseX + 'px';
-            dot.style.top  = mouseY + 'px';
-        });
+                <div class="links anim a6">
 
-        /* Smooth outline follow */
-        (function followOutline() {
-            outX += (mouseX - outX) * 0.10;
-            outY += (mouseY - outY) * 0.10;
-            outline.style.left = outX + 'px';
-            outline.style.top  = outY + 'px';
-            requestAnimationFrame(followOutline);
-        })();
+                    <a href="https://www.tiktok.com/@YOUR_TIKTOK"
+                       class="link-card"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <div class="link-card-icon">
+                            <i class="fab fa-tiktok" style="color: var(--white);"></i>
+                        </div>
+                        <div class="link-card-body">
+                            <span class="link-card-title">TikTok</span>
+                            <span class="link-card-desc">Watch our latest content</span>
+                        </div>
+                        <i class="fas fa-arrow-up-right-from-square link-card-arrow"></i>
+                    </a>
 
-        /* Hover states */
-        document.querySelectorAll('a, button, .stat, .service-item').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                dot.classList.add('hovered');
-                outline.classList.add('hovered');
-            });
-            el.addEventListener('mouseleave', () => {
-                dot.classList.remove('hovered');
-                outline.classList.remove('hovered');
-            });
-        });
+                    <a href="https://www.instagram.com/YOUR_INSTAGRAM"
+                       class="link-card"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <div class="link-card-icon">
+                            <i class="fab fa-instagram" style="color: #e1306c;"></i>
+                        </div>
+                        <div class="link-card-body">
+                            <span class="link-card-title">Instagram</span>
+                            <span class="link-card-desc">Follow for updates</span>
+                        </div>
+                        <i class="fas fa-arrow-up-right-from-square link-card-arrow"></i>
+                    </a>
 
-        /* Hide when leaving window */
-        document.addEventListener('mouseleave', () => {
-            dot.style.opacity     = '0';
-            outline.style.opacity = '0';
-        });
-        document.addEventListener('mouseenter', () => {
-            dot.style.opacity     = '1';
-            outline.style.opacity = '0.6';
-        });
-    </script>
+                    <a href="https://wa.me/YOUR_PHONE_NUMBER"
+                       class="link-card"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <div class="link-card-icon">
+                            <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                        </div>
+                        <div class="link-card-body">
+                            <span class="link-card-title">WhatsApp</span>
+                            <span class="link-card-desc">Message us directly</span>
+                        </div>
+                        <i class="fas fa-arrow-up-right-from-square link-card-arrow"></i>
+                    </a>
+
+                    <a href="mailto:YOUR_EMAIL@gmail.com" class="link-card">
+                        <div class="link-card-icon">
+                            <i class="fas fa-envelope" style="color: var(--green);"></i>
+                        </div>
+                        <div class="link-card-body">
+                            <span class="link-card-title">Email</span>
+                            <span class="link-card-desc">For formal inquiries</span>
+                        </div>
+                        <i class="fas fa-arrow-up-right-from-square link-card-arrow"></i>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- SERVICES SECTION ---------------------------------->
+            <div>
+                <div class="section-head anim a7">
+                    <span class="section-head-num">02 /</span>
+                    <span class="section-head-title">What We Build</span>
+                    <div class="section-head-line"></div>
+                </div>
+
+                <div class="services-grid anim a7">
+                    <div class="service-item">
+                        <i class="fas fa-globe"></i> Websites
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-mobile-alt"></i> Web Apps
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-shopping-cart"></i> E-Commerce
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-paint-brush"></i> UI / UX
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-search"></i> SEO
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-tools"></i> Maintenance
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER ---------------------------------->
+            <footer class="footer anim a8">
+                <div>© 2025 <a href="https://quickwebeg.github.io/portfolio/" target="_blank">QuickWeb Eg</a></div>
+                <div>Built with ♥ in Egypt 🇪🇬</div>
+            </footer>
+
+        </div>
+    </main>
 
 </body>
 </html>
